@@ -57,7 +57,7 @@ function ensureRequiredPlugins(configuredPlugins) {
   const hasGitPlugin = configuredPlugins.some((pluginSpec) => getPluginName(pluginSpec) === "@semantic-release/git");
   const normalizedPlugins = hasGitPlugin ? [...configuredPlugins] : [...configuredPlugins, "@semantic-release/git"];
 
-  return [...normalizedPlugins, versionWriterPlugin];
+  return [versionWriterPlugin, ...normalizedPlugins];
 }
 
 function getPluginName(pluginSpec) {

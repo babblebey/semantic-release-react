@@ -16,28 +16,38 @@ A focused release CLI for React projects built on `@semantic-release/core`.
 
 - Node.js `^22.14.0 || >=24.10.0`
 
-## Install
+## Usage
+
+Run directly with `npx` (no local install required):
 
 ```bash
-pnpm install
-```
-
-## Run
-
-```bash
-pnpm run release
+npx semantic-release-react
 ```
 
 Dry run:
 
 ```bash
-pnpm run release:dry-run
+npx semantic-release-react --dry-run --no-ci
 ```
 
 You can pass semantic-release runtime options through the CLI:
 
 ```bash
-node cli.js --dry-run --no-ci --branches main --tag-format v${version}
+npx semantic-release-react --branches main --tag-format v${version}
+```
+
+## Optional local install
+
+If you prefer pinning the package in your project:
+
+```bash
+pnpm add -D semantic-release-react
+```
+
+Then run:
+
+```bash
+pnpm semantic-release-react --dry-run --no-ci
 ```
 
 ## Provider configuration
@@ -45,6 +55,7 @@ node cli.js --dry-run --no-ci --branches main --tag-format v${version}
 This CLI reads provider plugins from your semantic-release config. It does not auto-detect provider.
 
 If you set your own `plugins` list in config, semantic-release treats that list as authoritative.
+This means defaults such as `@semantic-release/release-notes-generator` are overridden unless you include them explicitly.
 
 ### GitHub example
 
@@ -54,6 +65,7 @@ Create `.releaserc.json`:
 {
   "branches": ["main"],
   "plugins": [
+    "@semantic-release/release-notes-generator",
     "@semantic-release/github"
   ]
 }
@@ -67,6 +79,7 @@ Create `.releaserc.json`:
 {
   "branches": ["main"],
   "plugins": [
+    "@semantic-release/release-notes-generator",
     "@semantic-release/gitlab"
   ]
 }
@@ -93,7 +106,7 @@ Base dry run (no provider plugin):
 
 ```bash
 rm -f .releaserc.json
-node cli.js --dry-run --no-ci
+npx semantic-release-react --dry-run --no-ci
 ```
 
 Dry run with GitHub plugin configured:
@@ -102,10 +115,13 @@ Dry run with GitHub plugin configured:
 cat > .releaserc.json <<'JSON'
 {
   "branches": ["main"],
-  "plugins": ["@semantic-release/github"]
+  "plugins": [
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/github"
+  ]
 }
 JSON
-node cli.js --dry-run --no-ci
+npx semantic-release-react --dry-run --no-ci
 ```
 
 Dry run with GitLab plugin configured:
@@ -114,10 +130,13 @@ Dry run with GitLab plugin configured:
 cat > .releaserc.json <<'JSON'
 {
   "branches": ["main"],
-  "plugins": ["@semantic-release/gitlab"]
+  "plugins": [
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/gitlab"
+  ]
 }
 JSON
-node cli.js --dry-run --no-ci
+npx semantic-release-react --dry-run --no-ci
 ```
 
 Dry run with default plugin override:
@@ -129,6 +148,6 @@ cat > .releaserc.json <<'JSON'
   "plugins": [["@semantic-release/commit-analyzer", { "preset": "angular" }]]
 }
 JSON
-node cli.js --dry-run --no-ci
+npx semantic-release-react --dry-run --no-ci
 rm -f .releaserc.json
 ```

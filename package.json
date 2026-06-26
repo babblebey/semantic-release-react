@@ -1,13 +1,35 @@
 {
   "name": "semantic-release-react",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.0-development",
+  "description": "Release CLI for React apps powered by semantic-release core",
+  "type": "module",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bin": {
+    "semantic-release-react": "cli.js"
   },
-  "keywords": [],
+  "scripts": {
+    "release": "node cli.js",
+    "release:dry-run": "node cli.js --dry-run",
+    "test": "node -e \"console.log('No tests configured yet')\""
+  },
+  "keywords": [
+    "semantic-release",
+    "react",
+    "release",
+    "cli"
+  ],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.20.0"
+  "engines": {
+    "node": "^22.14.0 || >=24.10.0"
+  },
+  "packageManager": "pnpm@10.20.0",
+  "dependencies": {
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/core": "^1.0.0-beta.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.8",
+    "@semantic-release/gitlab": "^13.0.6",
+    "@semantic-release/release-notes-generator": "^14.1.0"
+  }
 }

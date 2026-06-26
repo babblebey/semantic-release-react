@@ -23,7 +23,6 @@
   "engines": {
     "node": "^22.14.0 || >=24.10.0"
   },
-  "packageManager": "pnpm@10.20.0",
   "dependencies": {
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/core": "^1.0.0-beta.1",

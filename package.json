@@ -18,7 +18,15 @@
     "release",
     "cli"
   ],
-  "author": "",
+  "author": "Olabode Lawal-Shittabey (http://babblebey.dev)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/babblebey/semantic-release-react.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "license": "ISC",
   "engines": {
     "node": "^22.14.0 || >=24.10.0"

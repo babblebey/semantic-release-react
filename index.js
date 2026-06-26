@@ -1,5 +1,5 @@
 import semanticRelease, { getLogger, resolveConfig, resolveEnvCi } from "@semantic-release/core";
-import { parseRuntimeOptions } from "./lib/config-resolver.js";
+import { parseRuntimeOptions } from "./lib/parse-runtime-options.js";
 import { versionWriterPlugin } from "./lib/version-writer.js";
 
 const BASE_CONFIG = {
@@ -41,10 +41,8 @@ export async function runRelease(argv = []) {
     baseConfig: BASE_CONFIG
   });
 
-  // Get Configured Plugins and add versionWriterPlugin to the end of the list
   const configuredPlugins = Array.isArray(options.plugins) ? options.plugins : [];
-  // Add Non-negotiable versionWriterPlugin to the end of the list of configured plugins   
-  const plugins = [...configuredPlugins, versionWriterPlugin];
+  const plugins = ensureRequiredPlugins(configuredPlugins);
 
   return semanticRelease({
     context: {
@@ -53,4 +51,27 @@ export async function runRelease(argv = []) {
     },
     plugins
   });
+}
+
+function ensureRequiredPlugins(configuredPlugins) {
+  const hasGitPlugin = configuredPlugins.some((pluginSpec) => getPluginName(pluginSpec) === "@semantic-release/git");
+  const normalizedPlugins = hasGitPlugin ? [...configuredPlugins] : [...configuredPlugins, "@semantic-release/git"];
+
+  return [...normalizedPlugins, versionWriterPlugin];
+}
+
+function getPluginName(pluginSpec) {
+  if (typeof pluginSpec === "string") {
+    return pluginSpec;
+  }
+
+  if (Array.isArray(pluginSpec)) {
+    return getPluginName(pluginSpec[0]);
+  }
+
+  if (pluginSpec && typeof pluginSpec === "object" && typeof pluginSpec.path === "string") {
+    return pluginSpec.path;
+  }
+
+  return null;
 }

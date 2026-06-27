@@ -25,7 +25,7 @@ jobs:
           node-version: lts/*
       - run: npm install --global corepack@latest
       - run: corepack enable pnpm
-      - run: pnpm ci
+      - run: pnpm install --frozen-lockfile
       - run: corepack pnpm audit signatures
       # pinned version updated automatically by Renovate.
       # details at https://semantic-release.gitbook.io/semantic-release/usage/installation#global-installation

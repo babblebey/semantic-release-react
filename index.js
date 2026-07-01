@@ -19,16 +19,6 @@ export async function runRelease(argv = []) {
   const envCi = resolveEnvCi({ cwd, env });
   const logger = getLogger({ stdout, stderr });
 
-  Object.assign(env, {
-    GIT_AUTHOR_NAME: "semantic-release-bot",
-    GIT_AUTHOR_EMAIL: "semantic-release-bot@semantic-release-react.com",
-    GIT_COMMITTER_NAME: "semantic-release-bot",
-    GIT_COMMITTER_EMAIL: "semantic-release-bot@semantic-release-react.com",
-    ...env,
-    GIT_ASKPASS: "echo",
-    GIT_TERMINAL_PROMPT: 0,
-  });
-
   const context = {
     cwd,
     env,

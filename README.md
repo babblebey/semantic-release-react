@@ -50,40 +50,72 @@ Then run:
 pnpm semantic-release-react --dry-run --no-ci
 ```
 
-## Provider configuration
+## Configure your Git provider (publish + release notes)
 
-This CLI reads provider plugins from your semantic-release config. It does not auto-detect provider.
+To publish releases to your Git provider and generate release notes, choose one provider plugin in your semantic-release config.
 
-If you set your own `plugins` list in config, semantic-release treats that list as authoritative.
-This means defaults such as `@semantic-release/release-notes-generator` are overridden unless you include them explicitly.
+### Step 1: Create `.releaserc.json`
 
-### GitHub example
+If you define your own `plugins` array, semantic-release treats it as the full plugin list.
+Include the plugins you need for release analysis and notes generation.
 
-Create `.releaserc.json`:
+Use this as a safe baseline:
 
 ```json
 {
   "branches": ["main"],
   "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator"
+  ]
+}
+```
+
+### Step 2: Add your provider plugin
+
+#### GitHub
+
+```json
+{
+  "branches": ["main"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/github"
   ]
 }
 ```
 
-### GitLab example
+Set one of these environment variables in CI:
 
-Create `.releaserc.json`:
+- `GITHUB_TOKEN`
+- `GH_TOKEN`
+
+#### GitLab
 
 ```json
 {
   "branches": ["main"],
   "plugins": [
+    "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/gitlab"
   ]
 }
 ```
+
+Set one of these environment variables in CI:
+
+- `GITLAB_TOKEN`
+- `GL_TOKEN`
+
+### Step 3: Run a dry run
+
+```bash
+npx semantic-release-react --dry-run --no-ci
+```
+
+If the dry run succeeds, run in CI without `--dry-run` to publish releases and release notes.
 
 ## Default plugin behavior
 
@@ -116,6 +148,7 @@ cat > .releaserc.json <<'JSON'
 {
   "branches": ["main"],
   "plugins": [
+    "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/github"
   ]
@@ -131,6 +164,7 @@ cat > .releaserc.json <<'JSON'
 {
   "branches": ["main"],
   "plugins": [
+    "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/gitlab"
   ]

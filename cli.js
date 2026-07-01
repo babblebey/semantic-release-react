@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
 import { runRelease } from "./index.js";
+import { parseRuntimeOptions } from "./lib/parse-runtime-options.js";
 
 async function main() {
   try {
-    const result = await runRelease(process.argv.slice(2));
+    const runtimeOptions = parseRuntimeOptions(process.argv.slice(2));
+    const result = await runRelease(runtimeOptions);
 
     if (!result) {
       console.log("[semantic-release-react] No release was published.");
@@ -12,7 +14,7 @@ async function main() {
     }
 
     if (result.nextRelease?.version) {
-      console.log(`[semantic-release-react] Released ${result.nextRelease.version}.`);
+      console.log(`[semantic-release-react] ${runtimeOptions.dryRun ? "Version to be released: " : "Released"} ${result.nextRelease.version}.`);
     }
 
     return;

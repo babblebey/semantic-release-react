@@ -1,5 +1,4 @@
 import semanticRelease, { getLogger, resolveConfig, resolveEnvCi } from "@semantic-release/core";
-import { parseRuntimeOptions } from "./lib/parse-runtime-options.js";
 import { versionWriterPlugin } from "./lib/version-writer.js";
 
 const BASE_CONFIG = {
@@ -10,8 +9,7 @@ const BASE_CONFIG = {
   ]
 };
 
-export async function runRelease(argv = []) {
-  const runtimeOptions = parseRuntimeOptions(argv);
+export async function runRelease(runtimeOptions) {
   const cwd = process.cwd();
   const env = process.env;
   const stdout = process.stdout;
